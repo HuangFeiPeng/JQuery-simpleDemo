@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录</title>
+    <!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script> -->
+    <script src="./js/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+    <script src="./sdk/webimSDK3.1.1.js"></script>
+    <script src="./sdk/EMedia_x1v1.js"></script>
+    <!-- <script src="./sdk//EMedia_sdk-dev.js"></script> -->
+    <script src="./WebIMConfig.js"></script>
+    <script src="./js/initWebIM.js"></script>
+    <script src="./js/function.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            color: rgb(078, 110, 242);
+            letter-spacing: 5px;
+        }
+
+        body {
+            width: 1200px;
+            height: 100vh;
+            margin: 0 auto;
+        }
+
+        .title {
+            text-align: center;
+        }
+
+        .txt {
+            font-size: 18px;
+            color: black;
+        }
+        #img{
+            width: 80px;
+            height: 80px;
+            border: 1px solid red;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 class="title">环信SDK集成测试Demo</h1>
+    <p class="txt">登录及注册框</p>
+    <div class="login-box">
+        用户昵称：<input type="text" name="name" id="nickname"> </br>
+        用户ID: <input type="text" id="userId" value="hfp"></br>
+        密 码：<input type="text" name="pwd" id="userpwd" value="1"></br>
+        消息：<input type="text" name="msg" id="msg">
+        文本框：<textarea rows="5" cols="30" placeholder="贴图贴在此处...." id="tietu"></textarea>
+    </div>
+    
+    <hr />
+    <p class="txt">登录页面功能按钮</p>
+    <div>
+        <button id="register">注册</button></button>
+        <button id="login">登录</button>
+        <button id="logout">退出</button>
+        图片消息：<img src="" alt="" id="img">
+    </div>
+    <div>
+        <input type="button" value="发送单聊消息" id="chatMessage">
+        <input type="button" value="发送群组消息" id="groupMessage">
+        <input type="button" value="发送聊天室消息" id="roomMessage">
+        <!-- <input type="button" value="发送贴图消息" id="tituMessage"> -->
+        <input type="button" value="发送URL图片消息" id="urlMessage">
+        <input type="button" value="发送命令消息" id="cmdMessage">
+        <input type="button" value="发送自定义消息" id="custoMessage">
+        <input type="button" value="撤回消息" id="widthDrawMessage">
+        <input type="button" value="获取历史消息" id="getHistoryMsg">
+        <p style="font-size: 10px;">附件消息</p>
+        <div>
+            <br> 图片:
+            <input type="file" id="image">
+            <button id="sendImg">点击发送</button>
+        </div>
+        <div>
+            <br> 文件:
+            <input type="file" id="fileMessage">
+            <button id="sendFile">点击发送</button>
+        </div>
+        <div>
+            <br> 音频:
+            <input type="file" id="vocieMessage">
+            <button id="sendVocie">点击发送</button>
+        </div>
+        <div>
+            <br> 视频:
+            <input type="file" id="videoMessage">
+            <button id="sendvideo">点击发送</button>
+        </div>
+    </div>
+    <hr />
+    <p>好友部分的功能</p>
+    <div>
+        <input type="button" value="查询好友列表" id="findFriendList">
+        <input type="button" value="添加好友" id="addFriends">
+        <input type="button" value="删除好友" id="removeFriends">
+        <input type="button" value="获取黑名单列表" id="getBlackList">
+        <input type="button" value="将好友加入黑名单" id="joinBlackList">
+        <input type="button" value="将好友移除黑名单" id="removeBlackList">
+    </div>
+    <hr/>
+    <p>群组功能部分</p>
+    <div>
+        <input type="button" value="获取用户加入的群组列表" id="getGroupList">
+        <input type="button" value="分页获取公开群" id="listGroups">
+        <input type="button" value="创建群组" id="createGroup">
+        <input type="button" value="获取群组信息" id="getGroupInfo">
+        <input type="button" value="修改群组信息" id="changeGroupInfo">
+        <input type="button" value="移除群成员" id="removeSingleGroup">
+        <input type="button" value="解散群组" id="dissolveGroup">
+        <input type="button" value="退出群组" id="quitGroup">
+    </div>
+    <hr/>
+    <p>聊天室部分功能</p>
+    <div>
+        <input type="button" value="创建聊天室" id="createRooms">
+    </div>
+    <hr />
+    <p class="txt">实时音视频</p>
+    <div>
+        <input type="button" value="视频呼叫" id="rtcCall">
+        <input type="button" value="语音拨打" id="rtAudioCall">
+        <input type="button" value="挂断" id="endCall">
+
+        <div>
+            <video id="video" style="border: 4px double rgb(078, 110, 242)" autoplay></video>
+            <video id="localVideo" muted=true autoplay style="border: 4px double rgb(206, 102, 60)"></video>
+            <video id="video2" muted=true autoplay style="border: 4px double rgb(240, 176, 151)"></video>
+        </div>
+    </div>
+    <hr />
+    <p class="txt">多人音视频</p>
+    <div>
+        <input type="button" value="创建会议" id="createMeet">
+        <input type="button" value="挂断退出" id="endMeet">
+        <input type="button" value="文本邀请消息" id="textAsk">
+        <input type="button" value="离开会议" id="exitMeet">
+        <input type="button" value="取消发布流" id="cancelLiu">
+        <input type="button" value="获取会议信息" id="getMeetMsg">
+        <input type="button" value="打开桌面共享" id="shareDesk">
+        <input type="button" value="切换摄像头尝试" id="changeCam">
+    </div>
+    <input type="button" value="获取音频消息" id="getAudioMsg">
+    <!-- <audio  id="aduioMsg"></audio> -->
+    <div id="Auidomsg" style="width: 500px; height: 100px; border: 1px solid red;">
+        <audio src="./35.mp3"></audio>
+    </div>
+</body>
+<script>
+    $('#getAudioMsg').click(function (e) { 
+        e.preventDefault();
+        var audioUrl = window.localStorage.getItem("audioURl")
+        var audio = `<audio src="${audioUrl}" controls></audio>`
+        $('#Auidomsg').append(audio);
+    });
+</script>
+</html>
