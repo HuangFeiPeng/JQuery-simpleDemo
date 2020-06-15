@@ -314,9 +314,25 @@ $(function () {
         })
     });
     //拒绝用户入群
-    $('#rejectJoinGroup').click(function (e) { 
+    $('#rejectJoinGroup').click(function (e) {
         e.preventDefault();
-        
+
+    });
+    /* 禁言处理 */
+    //禁言成员
+    $('#mute').click(function (e) {
+        e.preventDefault();
+        conn.mute({
+            username: "omg2", // 成员用户名
+            muteDuration: 886400000, // 禁言的时长，单位是毫秒
+            groupId: "117200113434628",
+            success: function (resp) {
+                console.log('禁言成功~',resp.data);
+            },
+            error: function (e) {
+                console.log('禁言失败！',e);
+            }
+        })
     });
     /* 白名单管理 */
     //从服务器拉去白名单
