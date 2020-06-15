@@ -7,12 +7,12 @@
     <title>登录</title>
     <!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script> -->
     <script src="./js/jquery-3.4.1/jquery-3.4.1.min.js"></script>
-    <script src="./sdk/webimSDK3.1.1.js"></script>
+    <script src="./sdk/websdk3.1.4.js"></script>
     <script src="./sdk/EMedia_x1v1.js"></script>
     <!-- <script src="./sdk//EMedia_sdk-dev.js"></script> -->
     <script src="./WebIMConfig.js"></script>
     <script src="./js/initWebIM.js"></script>
-    <script src="./js/function.js"></script>
+    <!-- <script src="./js/function.js"></script> -->
     <style>
         * {
             margin: 0;
@@ -51,12 +51,12 @@
     <p class="txt">登录及注册框</p>
     <div class="login-box">
         用户昵称：<input type="text" name="name" id="nickname"> </br>
-        用户ID: <input type="text" id="userId" value="hfp"></br>
+        用户ID: <input type="text" id="userId"  value="hfp"></br>
         密 码：<input type="text" name="pwd" id="userpwd" value="1"></br>
         消息：<input type="text" name="msg" id="msg">
         文本框：<textarea rows="5" cols="30" placeholder="贴图贴在此处...." id="tietu"></textarea>
     </div>
-    
+
     <hr />
     <p class="txt">登录页面功能按钮</p>
     <div>
@@ -118,11 +118,35 @@
         <input type="button" value="移除群成员" id="removeSingleGroup">
         <input type="button" value="解散群组" id="dissolveGroup">
         <input type="button" value="退出群组" id="quitGroup">
+        <!-- 群公告管理 -->
+        <input type="button" value="获取群公告" id="getGroupAct">
+        <input type="button" value="上传或修改群公告" id="updateGroupAct">
+        <br />
+        <!-- 群文件管理 -->
+        上传群文件：<input type="file" id="groupFile">
+        <input type="button" id="upGroupFile" value="点击上传群文件">
+        <input type="button" value="获取群文件列表" id="getGroupFileList">
+        <input type="button" value="下载群文件" id="dowGroupFile">
+        <input type="button" value="删除群文件" id="delGroupFile">
+        <br />
+        <!-- 群成员管理 -->
+        <input type="button" value="获取全部成员" id="listGroupMember">
+        <input type="button" value="获取群组全部管理员" id="getGroupAdmin">
+        <input type="button" value="将成员设为管理员" id="setAdmin">
+        <input type="button" value="撤销管理员" id="delAdmin">
+        <input type="button" value="拉取白名单" id="getWhiteList">
+        <!-- 加群处理 -->
+        <input type="button" value="将好友加入群组" id="inviteToGroup">
+        <input type="button" value="向群组发出入群申请" id="joinGroup">
+        <input type="button" value="同意用户入群" id="agreeJoinGroup">
+        <input type="button" value="拒绝用户入群" id="rejectJoinGroup">
     </div>
     <hr/>
     <p>聊天室部分功能</p>
     <div>
         <input type="button" value="创建聊天室" id="createRooms">
+        <input type="button" value="获取聊天室成员列表" id="listRoomsMebr">
+        
     </div>
     <hr />
     <p class="txt">实时音视频</p>
@@ -164,3 +188,9 @@
     });
 </script>
 </html>
+<script src="./js/loginAndMsg.js"></script>
+<script src="./js//friends.js"></script>
+<script src="./js/groups.js"></script>
+<script src="./js/chatrooms.js"></script>
+<script src="./js/singleV&A.js"></script>
+<script src="./js/mangV&A.js"></script>

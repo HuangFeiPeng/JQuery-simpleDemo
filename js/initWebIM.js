@@ -1,6 +1,6 @@
 var conn = {};
 WebIM.config = config;
-conn = WebIM.conn = new WebIM.default.connection({
+conn = WebIM.conn = new WebIM.connection({
     appKey: WebIM.config.appkey,
     isHttpDNS: WebIM.config.isHttpDNS,
     isMultiLoginSessions: WebIM.config.isMultiLoginSessions,
@@ -52,13 +52,11 @@ conn.listen({
                         console.log("加入失败");
                     })
 
-            } else {
-                console.log('>>>>>会议邀请ID不存在！')
             }
         } else {
 
         }
-        console.log('>>>>收到文本消息！', message);
+        console.log('>>>>收到文本消息！',message.data);
 
     }, //收到文本消息
     onEmojiMessage: function (message) {
@@ -164,7 +162,7 @@ conn.listen({
                     //同意好友申请的方法
                     conn.subscribed({
                         to: toID,
-                        message: '[resp:true]'
+                        // message: '[resp:true]'
                         //若e.status中含有[resp:true],则表示为对方同意好友后反向添加自己为好友的消息，
                         //demo 中发现此类消息，默认同意操作，完成双方互为好友；
                         //如果不含有[resp:true]，则表示为正常的对方请求添加自己为好友的申请消息。
@@ -249,7 +247,7 @@ var rtcCall = new WebIM.WebRTC.Call({
         },
         onRinging: function (caller, streamType) {
             console.log("onRinging", caller)
-            var returned = confirm('接到音视频消息,是否接听？')
+            var returned = confirm('接到来自'+caller+'音视频,是否接听？')
             if (returned) {
                 rtcCall.acceptCall();
                 console.log('>>>>接听成功！');
