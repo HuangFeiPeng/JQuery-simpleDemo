@@ -212,9 +212,13 @@ conn.listen({
     onDeliveredMessage: function (message) {
         console.log('>>>>收到消息到达客户端回执', message)
     }, //收到消息送达客户端回执
-    onReadMessage: function (message) { }, //收到消息已读回执
+    onReadMessage: function (message) { 
+        console.log('收到消息已读~',message);
+    }, //收到消息已读回执
     onCreateGroup: function (message) { }, //创建群组成功回执（需调用createGroupNew）
-    onMutedMessage: function (message) { } //如果用户在A群组被禁言，在A群发消息会走这个回调并且消息不会传递给群其它成员
+    onMutedMessage: function (message) { 
+        console.log('在群内被禁言然后发言触发的这个回调~~~');
+    } //如果用户在A群组被禁言，在A群发消息会走这个回调并且消息不会传递给群其它成员
 });
 
 //初始化 WebRTC Call
@@ -233,18 +237,18 @@ var rtcCall = new WebIM.WebRTC.Call({
     listener: {
         onAcceptCall: function (from, options) {
             console.log('onAcceptCall::', 'from: ', from, 'options: ', options);
-        },
+        },//接通执行的回调
         //通过streamType区分视频流和音频流，streamType: 'VOICE'(音频流)，'VIDEO'(视频流)
         onGotRemoteStream: function (stream, streamType) {
             console.log('onGotRemoteStream::', 'stream: ', stream, 'streamType: ', streamType);
             var video = document.getElementById('video');
             video.srcObject = stream;
-        },
+        },//获取到远程流执行的回调
         onGotLocalStream: function (stream, streamType) {
             console.log('onGotLocalStream::', 'stream:', stream, 'streamType: ', streamType);
             var video = document.getElementById('localVideo');
             video.srcObject = stream;
-        },
+        },//获取到本地流执行的回调
         onRinging: function (caller, streamType) {
             console.log("onRinging", caller)
             var returned = confirm('接到来自'+caller+'音视频,是否接听？')
@@ -256,23 +260,23 @@ var rtcCall = new WebIM.WebRTC.Call({
                 console.log('>>>>挂断成功！');
 
             }
-        },
+        },//监听到有人呼叫执行的回调
         onTermCall: function (reason) {
-            console.log('onTermCall::');
-            console.log('reason:', reason);
-        },
+            console.log('>>>>>onTermCall监听回调执行');
+            console.log('>>>>>>reason:', reason);
+        },//通话断开执行的回调
         onIceConnectionStateChange: function (iceState) {
-            console.log('onIceConnectionStateChange::', 'iceState:', iceState);
-        },
+            console.log('>>>>onIceConnectionStateChange::', 'iceState:', iceState);
+        },//监听连接状态
         onError: function (e) {
             console.log('>>>>音视频错误', e);
-        }
+        }//单点音视频错误回调
     }
 });
 
 //初始化多人会议
 emedia.config({
-    restPrefix: 'https://a1-hsb.easemob.com', //配置服务器域名、必填 比如: 'https://a1-hsb.easemob.com'
+    restPrefix: 'https://a1.easemob.com', //配置服务器域名、必填 比如: 'https://a1-hsb.easemob.com'
     appkey: WebIM.config.appkey, // 配置appkey、必填
     useDeployMore: true //开启多集群部署
 });

@@ -66,7 +66,7 @@ $(function () {
         var id = conn.getUniqueId();
         var sendTo = $('#nickname').val();
         var message = $('#msg').val();
-        var msg = new WebIM.default.message('txt', id)
+        var msg = new WebIM.message('txt', id)
         msg.set({
             msg: message, // 消息内容
             to: sendTo, // 接收消息对象（用户id）
@@ -161,7 +161,7 @@ $(function () {
     //发送URL图片消息
     $('#urlMessage').click(function (e) {
         e.preventDefault();
-        var url = 'https://img/long_image_shadow.png';
+        var url = 'https://huaban.com/pins/1515126511';
         var id = conn.getUniqueId(); // 生成本地消息id
         var msg = new WebIM.message('img', id); // 创建图片消息
         var option = {
@@ -184,6 +184,7 @@ $(function () {
         msg.set(option);
         console.log(msg)
         conn.send(msg.body);
+        console.log('body',msg.body);
     });
     //发送命令消息
     $('#cmdMessage').click(function (e) {

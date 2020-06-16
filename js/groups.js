@@ -103,7 +103,7 @@ $(function () {
         };
         conn.dissolveGroup(option);
     });
-    //退出群组 （群主不能推出自己创建的群）
+    //退出群组 （群主不能退出自己创建的群）
     $('#quitGroup').click(function (e) {
         e.preventDefault();
         var option = {
@@ -230,7 +230,7 @@ $(function () {
             error: function (e) {}
         })
     });
-    //获取除群组之外所有管理员
+    //获取除群主之外所有管理员
     $('#getGroupAdmin').click(function (e) {
         e.preventDefault();
         conn.getGroupAdmin({
@@ -319,7 +319,7 @@ $(function () {
 
     });
     /* 禁言处理 */
-    //禁言成员
+    //将成员禁言
     $('#mute').click(function (e) {
         e.preventDefault();
         conn.mute({
@@ -327,13 +327,67 @@ $(function () {
             muteDuration: 886400000, // 禁言的时长，单位是毫秒
             groupId: "117200113434628",
             success: function (resp) {
-                console.log('禁言成功~',resp.data);
+                console.log('禁言成功~', resp.data);
             },
             error: function (e) {
-                console.log('禁言失败！',e);
+                console.log('禁言失败！', e);
             }
         })
     });
+    //将成员解除禁言
+    $('#removeMute').click(function (e) {
+        e.preventDefault();
+        conn.removeMute({
+            groupId: "117200113434628", // 群组ID
+            username: "omg2", // 成员用户名
+            success: function (resp) {
+                console.log('禁言解除成功~', resp.data);
+            },
+            error: function (e) {
+                console.log('禁言解除失败！', e);
+            }
+        })
+    });
+    //获取群组下禁言成员
+    $('#allMuteList').click(function (e) {
+        e.preventDefault();
+        conn.getMuted({
+            groupId: "117200113434628", // 群组ID
+            success: function (resp) {
+                console.log('获取成功>>>', resp.data);
+            },
+            error: function (e) {
+                console.log('获取失败！', e);
+            }
+        })
+    });
+    //开启全员禁言
+    $('#onAllMute').click(function (e) {
+        e.preventDefault();
+        conn.disableSendGroupMsg({
+            groupId: "117200113434628", //群组id
+            success: function (resp) {
+                console.log('开启全员禁言成功！',resp.data);
+            },
+            error: function (e) {
+                console.log('开启全员禁言失败！',e);
+            }
+        })
+    });
+    //关闭全员禁言
+    $('#offAllMute').click(function (e) { 
+        e.preventDefault();
+        conn.enableSendGroupMsg({
+            groupId: "117200113434628", //群组id
+            success: function (resp) {
+                console.log('关闭全员禁言成功！',resp.data);
+            },
+            error: function (e) {
+                console.log('关闭全员禁言失败！',e);
+            }
+        })
+    });
+    allMuteList
     /* 白名单管理 */
     //从服务器拉去白名单
     $('#getWhiteList').click(function (e) {

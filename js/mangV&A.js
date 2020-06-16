@@ -3,7 +3,7 @@ $(function () {
     var resultCon = {}
     //创建会议
     document.getElementById("createMeet").onclick = function () {
-        emedia.mgr.createConference(emedia.mgr.ConfrType.COMMUNICATION_MIX).then(function (confr) {
+        emedia.mgr.createConference(10).then(function (confr) {
             console.log("创建会议成功");
             console.log(confr);
             resultCon = confr;
@@ -82,28 +82,31 @@ $(function () {
             console.log('加入失败', error);
         })
     }
-    document.getElementById('shareDesk').onclick = function () {
+    // //开启桌面共享
+    $('#shareDesk').click(function (e) {
+        let stream;
+        e.preventDefault();
         let params = {
-            videoConstaints: true,
-            withAudio: true,
-            videoTag: document.getElementById('shareVideo'),
-            ext: {
-                test: '测试共享桌面'
-            },
-            confrId: resultCon.confrId,
-            stopSharedCallback: function () {
-                console.log('点击停止');
+            // videoConstaints: {screenOptions: ['screen', 'window', 'tab']}, //想要获取的桌面流的类别
+            videoConstaints: false, //想要获取的桌面流的类别
+            videoTag: $("#video2")[0],
+            stopSharedCallback: function(){
+                emedia.mgr.unpublish(stream)
             }
         }
-        console.log(resultCon)
-        console.log(params);
-        emedia.mgr.shareDesktopWithAudio(params).then(function (pushedStream) {
+        emedia.mgr.shareDesktopWithAudio(params).then(function(pushedStream){
             //stream 对象
-            console.log('共享桌面获取到了', pushedStream);
-        }).catch(function (error) {
-            console.log('共享桌面报错！', error);
+            // console.log('共享桌面的成功！stream',stream);
+            console.log('共享桌面成功！',pushedStream);
+            return stream = pushedStream;
+        }).catch(function(error){
+    
         });
-    }
+
+    });
+    // console.log(resultCon)
+    // console.log(params);
+
     //cmd 扩展邀请
     // document.getElementById("cmdAsk").onclick = function () {
     //     var username = document.getElementById("userId").value;
@@ -129,14 +132,5 @@ $(function () {
     //     msg.body.chatType = 'singleChat';
     //     conn.send(msg.body);
     // }
-    document.getElementById('changeCam').onclick = function () {
-        emedia.mgr.switchCamera().then(function (e) {
-            console.log(e)
-            console.log('>>>>1');
-
-        }).catch(function () {
-            console.log('>>>切换失败！');
-        })
-    }
 
 })

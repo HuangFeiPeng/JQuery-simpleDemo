@@ -42,6 +42,6 @@ function getUrl() {
         heartBeatWait: 4500,                      // 使用webrtc（视频聊天）时发送心跳包的时间间隔，单位ms
 
         Host: 'easemob.com',
-        delivery: true                        // 是否发送已读回执
+        delivery: false                        // 是否发送已读回执
     }
     
