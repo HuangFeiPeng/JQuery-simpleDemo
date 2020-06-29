@@ -1,6 +1,7 @@
 /* 多人音视频部分 */
 $(function () {
     var resultCon = {}
+    var resultCon2 = {}
     //创建会议
     document.getElementById("createMeet").onclick = function () {
         emedia.mgr.createConference(10).then(function (confr) {
@@ -36,36 +37,11 @@ $(function () {
     emedia.mgr.onMemberJoined = function (member) {
         console.log('有人加入会议>>>>', member);
     };
-    //发布视频流
-    // document.getElementById("pushVideo").onclick = function () {
-    //     var videoPush = document.getElementById("video");
-    //     var constaints = {
-    //         audio: true,
-    //         video: true
-    //     };
-    //     emedia.mgr
-    //         .publish(constaints, videoPush, "创建者加入会议")
-    //         .then(function (pushedStream) {
-    //             //stream 对象
-    //             console.log('stream>>>>', pushedStream);
-    //         })
-    //         .catch(function (error) {
-    //             console.log('>>>>', error);
-    //         });
-    // }
-    // $('#endMeet').click(function (e) {
-    //     e.preventDefault();
-    //     var rtn = confirm("确定退出?");
-    //     if (rtn) {
-    //         emedia.mgr.exit();
-    //     }
-    // });
-    //文本邀请
+    //文本邀请加入会议
     document.getElementById('textAsk').onclick = function () {
         var toName = document.getElementById('nickname').value
         var jid = WebIM.config.appkey + "_" + toName + "@easemob.com";
         rtcCall.inviteConference(resultCon.confrId, resultCon.password, jid);
-
     }
     //离开会议
     document.getElementById('exitMeet').onclick = function () {
@@ -82,31 +58,42 @@ $(function () {
             console.log('加入失败', error);
         })
     }
+    //授权
+    $('#grantRole').click(function (e) { 
+        e.preventDefault();
+        debugger;
+        emedia.mgr.grantRole(resultCon, '13031081380', 7).then(function(res){
+            console.log('授权成功',res);
+        }).catch(function(error){
+            console.log('授权失败！',error);
+        })
+    });
     // //开启桌面共享
     $('#shareDesk').click(function (e) {
+        debugger;
         let stream;
         e.preventDefault();
         let params = {
             // videoConstaints: {screenOptions: ['screen', 'window', 'tab']}, //想要获取的桌面流的类别
             videoConstaints: false, //想要获取的桌面流的类别
+            widthAudio: true,
             videoTag: $("#video2")[0],
-            stopSharedCallback: function(){
+            ext: "共享桌面成功开启",
+            stopSharedCallback: function () {
+                // debugger;
                 emedia.mgr.unpublish(stream)
             }
         }
-        emedia.mgr.shareDesktopWithAudio(params).then(function(pushedStream){
+        emedia.mgr.shareDesktopWithAudio(params).then(function (pushedStream) {
             //stream 对象
             // console.log('共享桌面的成功！stream',stream);
-            console.log('共享桌面成功！',pushedStream);
+            console.log('共享桌面成功！', pushedStream);
             return stream = pushedStream;
-        }).catch(function(error){
-    
+        }).catch(function (error) {
+            console.log('共享桌面出现error', error);
         });
 
     });
-    // console.log(resultCon)
-    // console.log(params);
-
     //cmd 扩展邀请
     // document.getElementById("cmdAsk").onclick = function () {
     //     var username = document.getElementById("userId").value;
@@ -132,5 +119,19 @@ $(function () {
     //     msg.body.chatType = 'singleChat';
     //     conn.send(msg.body);
     // }
-
+    //创建并保持会议
+    $('#createConFr').click(function (e) {
+        e.preventDefault();
+        emedia.mgr.createConference(10, '', true, true, true).then(function (confr) {
+            console.log('创建成功',confr);
+            resultCon2 = confr;
+        }).catch(function (error) {
+            console.log('创建会议失败！',error);
+        })
+    });
+    //加入创建的会议
+    $('').click(function (e) { 
+        e.preventDefault();
+        
+    });
 })

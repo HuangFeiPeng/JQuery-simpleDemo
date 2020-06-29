@@ -1,6 +1,7 @@
 var conn = {};
 WebIM.config = config;
 conn = WebIM.conn = new WebIM.connection({
+    // conn = WebIM.conn = new WebIM.default.connection({
     appKey: WebIM.config.appkey,
     isHttpDNS: WebIM.config.isHttpDNS,
     isMultiLoginSessions: WebIM.config.isMultiLoginSessions,
@@ -14,6 +15,35 @@ conn = WebIM.conn = new WebIM.connection({
     isStropheLog: WebIM.config.isStropheLog,
     delivery: WebIM.config.delivery
 })
+//监听到消息让消息显示到消息展示的方法
+function DisPlayMsg(from, data, conType) {
+    // var msgCont = $("#msgContent")[0];
+    console.log('>>>>>', from, data, conType);
+    if (conType == "TEXT") {
+        let msg = `<li>
+                    <div class="msg-box">
+                        <span class="msgName">发送人:${from}</span>
+                        <p class="msgData">消息内容${data}</p>
+                    </div>
+                </li>`
+        $(".msgUl").append(msg);
+    } else if (conType == "IMAGE") {
+        let msg = `<li>
+                    <div class="msg-box">
+                        <span class="msgName">发送人:${from}</span>
+                        <img src="${data}" alt="图片加载失败..." title="">
+                    </div>
+                </li>`
+        $(".msgUl").append(msg);
+    }
+    // let msg = `<li>
+    //                 <div class="msg-box">
+    //                     <span class="msgName">发送人:${from}</span>
+    //                     <p class="msgData">消息内容${data}</p>
+    //                 </div>
+    //             </li>`
+    // $(".msgUl").append(msg);
+}
 // WebIM.config 为之前集成里介绍的WebIMConfig.js
 conn.listen({
     onOpened: function (message) {
@@ -24,9 +54,14 @@ conn.listen({
         alert('已退出！')
     }, //连接关闭回调
     onTextMessage: function (message) {
-        var cmdMsg = confirm('收到' + message.from + '的消息');
-        if (cmdMsg) {
-            if (message.ext.conferenceId) {
+        console.log('>>>收到文本消息', message);
+        var msg = message;
+        DisPlayMsg(msg.from, msg.data, msg.contentsType);
+        // console.log(msgCont);
+        //接收文本的会议邀请
+        if (message.ext.conferenceId) {
+            var cofer = confirm('是否加入音频会议？')
+            if (cofer) {
                 var confrId = message.ext.conferenceId;
                 var password = message.ext.password;
                 emedia.mgr.joinConference(confrId, password, "加入").then(
@@ -49,24 +84,28 @@ conn.listen({
                             });
 
                     }).catch(function (error) {
-                        console.log("加入失败");
-                    })
+                    console.log("加入失败");
+                })
+
+            } else {
 
             }
-        } else {
 
         }
-        console.log('>>>>收到文本消息！',message.data);
-
     }, //收到文本消息
     onEmojiMessage: function (message) {
         console.log('>>>收到表情消息', message)
+        console.log(message);
+        
     }, //收到表情消息
     onPictureMessage: function (message) {
         console.log('>>>图片消息', message)
         var imgUrl = message.url;
         console.log(imgUrl);
-        document.getElementById('img').setAttribute("src",imgUrl);
+        var msg = message;
+        DisPlayMsg(msg.from, msg.url, msg.contentsType);
+        // DisPlayMsg(message.from,imgUrl,conType);
+        // document.getElementById('img').setAttribute("src", imgUrl);
 
     }, //收到图片消息
     onCmdMessage: function (message) {
@@ -106,15 +145,17 @@ conn.listen({
             // var audioURl = message.url;
             // window.localStorage.setItem("audioURl",audioURl);
             // console.log(audioURl);
-            var options = { url: message.url };
+            var options = {
+                url: message.url
+            };
             // options.onFileDownloadComplete = function ( response ) { 
-                //音频下载成功，需要将response转换成blob，使用objectURL作为audio标签的src即可播放。
-                // var objectURL = WebIM.default.utils.parseDownloadResponse.call(conn, response);
-                // console.log(objectURL);
-                window.localStorage.setItem("audioURl",message.url);
-                // console.log(objectURL)
+            //音频下载成功，需要将response转换成blob，使用objectURL作为audio标签的src即可播放。
+            // var objectURL = WebIM.default.utils.parseDownloadResponse.call(conn, response);
+            // console.log(objectURL);
+            window.localStorage.setItem("audioURl", message.url);
+            // console.log(objectURL)
             //   };  
-          
+
             // };
             // options.onFileDownloadError = function () {
             //     //音频下载失败 
@@ -151,8 +192,9 @@ conn.listen({
         WebIM.default.utils.download.call(conn, option);
     }, //收到视频消息
     onPresence: function (message) {
+        console.log(">>>>onPresence监听触发~", message)
+        console.log('>>>>>message.type', message.type);
         var toID = message.from;
-        console.log(">>>>收到消息！", message)
         var handlePresence = function (e) {
             //（发送者希望订阅接收者的出席信息），即别人申请加你为好友
             if (e.type === 'subscribe') {
@@ -189,15 +231,87 @@ conn.listen({
             if (e.type === 'unsubscribed') {
                 alert('好友关系解除，或者为拒绝了好友申请！')
             }
+            switch (e.type) {
+                case 'rmChatRoomMute':
+                    console.log('>>>>解除聊天室禁言生效！');
+                    // 解除聊天室一键禁言
+                    break;
+                case 'muteChatRoom':
+                    console.log('>>>>>聊天室禁言生效！');
+                    // 聊天室一键禁言
+                    break;
+                case 'rmUserFromChatRoomWhiteList':
+                    console.log('>>>>>>聊天室白名单成员删除');
+                    // 删除聊天室白名单成员
+                    break;
+                case 'addUserToChatRoomWhiteList':
+                    console.log('>>>>增加聊天室白名单成员');
+                    // 增加聊天室白名单成员
+                    break;
+                case 'deleteFile':
+                    console.log('>>>>删除聊天室文件');
+                    // 删除聊天室文件
+                    break;
+                case 'uploadFile':
+                    console.log('>>>>上传聊天室文件');
+                    // 上传聊天室文件
+                    break;
+                case 'deleteAnnouncement':
+                    console.log('>>>>删除聊天室公告');
+                    // 删除聊天室公告
+                    break;
+                case 'updateAnnouncement':
+                    console.log('>>>>更新聊天室公告');
+                    // 更新聊天室公告
+                    break;
+                case 'removeMute':
+                    console.log('>>>>解除禁言');
+                    // 解除禁言
+                    break;
+                case 'addMute':
+                    console.log('禁言');
+                    // 禁言
+                    break;
+                case 'removeAdmin':
+                    console.log('>>>移出管理员');
+                    // 移除管理员
+                    break;
+                case 'addAdmin':
+                    console.log('>>>添加管理员');
+                    // 添加管理员
+                    break;
+                case 'changeOwner':
+                    console.log('>>>>转入聊天室');
+                    // 转让聊天室
+                    break;
+                case 'leaveChatRoom':
+                    console.log('>>>退出聊天室');
+                    // 退出聊天室
+                    break;
+                case 'memberJoinChatRoomSuccess':
+                    console.log('>>>有人加入聊天室');
+                    // 加入聊天室
+                    break;
+                case 'leave':
+                    console.log('>>>退出群');
+                    // 退出群
+                    break;
+                case 'join':
+                    console.log('>>>>加入群');
+                    // 加入群
+                    break;
+                default:
+                    break;
+            }
         };
         handlePresence(message);
     }, //处理“广播”或“发布-订阅”消息，如联系人订阅请求、处理群组、聊天室被踢解散等消息
     onRoster: function (message) {
         console.log('>>>>>onRoster执行', message);
     }, //处理好友申请
-    onInviteMessage: function (message) { }, //处理群组邀请
-    onOnline: function () { }, //本机网络连接成功
-    onOffline: function () { }, //本机网络掉线
+    onInviteMessage: function (message) {}, //处理群组邀请
+    onOnline: function () {}, //本机网络连接成功
+    onOffline: function () {}, //本机网络掉线
     onError: function (message) {
         console.log('>>>出现错误', message);
     }, //失败回调
@@ -205,20 +319,26 @@ conn.listen({
         // 查询黑名单，将好友拉黑，将好友从黑名单移除都会回调这个函数，list则是黑名单现有的所有好友信息
         console.log('>>>>>黑名单功能执行正常', list);
     },
-    onRecallMessage: function (message) { }, //收到撤回消息回调
+    onRecallMessage: function (message) {}, //收到撤回消息回调
     onReceivedMessage: function (message) {
         console.log('>>>收到消息送达服务器回执', message)
     }, //收到消息送达服务器回执
     onDeliveredMessage: function (message) {
         console.log('>>>>收到消息到达客户端回执', message)
     }, //收到消息送达客户端回执
-    onReadMessage: function (message) { 
-        console.log('收到消息已读~',message);
+    onReadMessage: function (message) {
+        console.log('收到消息已读~', message);
     }, //收到消息已读回执
-    onCreateGroup: function (message) { }, //创建群组成功回执（需调用createGroupNew）
-    onMutedMessage: function (message) { 
+    onCreateGroup: function (message) {}, //创建群组成功回执（需调用createGroupNew）
+    onMutedMessage: function (message) {
         console.log('在群内被禁言然后发言触发的这个回调~~~');
-    } //如果用户在A群组被禁言，在A群发消息会走这个回调并且消息不会传递给群其它成员
+    }, //如果用户在A群组被禁言，在A群发消息会走这个回调并且消息不会传递给群其它成员
+    onOnline: function () {
+        console.log('Online');
+    }, //本机网络连接成功
+    onOffline: function () {
+        console.log('onOffline');
+    }, //本机网络掉线
 });
 
 //初始化 WebRTC Call
@@ -237,21 +357,22 @@ var rtcCall = new WebIM.WebRTC.Call({
     listener: {
         onAcceptCall: function (from, options) {
             console.log('onAcceptCall::', 'from: ', from, 'options: ', options);
-        },//接通执行的回调
+        }, //接通执行的回调
         //通过streamType区分视频流和音频流，streamType: 'VOICE'(音频流)，'VIDEO'(视频流)
         onGotRemoteStream: function (stream, streamType) {
             console.log('onGotRemoteStream::', 'stream: ', stream, 'streamType: ', streamType);
             var video = document.getElementById('video');
             video.srcObject = stream;
-        },//获取到远程流执行的回调
+        }, //获取到远程流执行的回调
         onGotLocalStream: function (stream, streamType) {
             console.log('onGotLocalStream::', 'stream:', stream, 'streamType: ', streamType);
             var video = document.getElementById('localVideo');
             video.srcObject = stream;
-        },//获取到本地流执行的回调
+        }, //获取到本地流执行的回调
         onRinging: function (caller, streamType) {
             console.log("onRinging", caller)
-            var returned = confirm('接到来自'+caller+'音视频,是否接听？')
+            console.log(object);
+            var returned = confirm('接到来自' + caller + '音视频,是否接听？')
             if (returned) {
                 rtcCall.acceptCall();
                 console.log('>>>>接听成功！');
@@ -260,17 +381,17 @@ var rtcCall = new WebIM.WebRTC.Call({
                 console.log('>>>>挂断成功！');
 
             }
-        },//监听到有人呼叫执行的回调
+        }, //监听到有人呼叫执行的回调
         onTermCall: function (reason) {
             console.log('>>>>>onTermCall监听回调执行');
             console.log('>>>>>>reason:', reason);
-        },//通话断开执行的回调
+        }, //通话断开执行的回调
         onIceConnectionStateChange: function (iceState) {
             console.log('>>>>onIceConnectionStateChange::', 'iceState:', iceState);
-        },//监听连接状态
+        }, //监听连接状态
         onError: function (e) {
             console.log('>>>>音视频错误', e);
-        }//单点音视频错误回调
+        } //单点音视频错误回调
     }
 });
 
@@ -291,6 +412,7 @@ emedia.mgr.onMemberExited = function (member) {
 //其他成员收到通知并订阅流
 //有媒体流添加；比如 自己调用了publish方法（stream.located() === true时），或其他人调用了publish方法。
 emedia.mgr.onStreamAdded = function (member, stream) {
+    // debugger;
     console.log('>>>>有媒体流添加', member, stream);
     if (!stream.located()) { //自己发送的数据流 
         var subscribe = confirm('是否订阅？')
@@ -314,6 +436,3 @@ emedia.mgr.onRoleChanged = function (role) {
     console.log('>>>>角色改变', role);
 
 };
-
-
-

@@ -26,7 +26,10 @@ $(function () {
         console.log(toID)
         //取nickname里的value值作为toID使用
         conn.removeRoster({
-            to: toID
+            to: toID,
+            success: function(res){
+                console.log('删除好友成功！',res);
+            }
         });
     });
     //获取黑名单列表

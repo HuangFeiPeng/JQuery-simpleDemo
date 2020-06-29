@@ -75,7 +75,7 @@ $(function () {
 
             }, //扩展消息
             success: function (id, serverMsgId) {
-                console.log('send private text Success');
+                console.log('发送成功！',id,serverMsgId);
             }, // 对成功的相关定义，sdk会将消息id登记到日志进行备份处理
             fail: function (e) {
                 console.log("Send private text error");
@@ -109,10 +109,10 @@ $(function () {
     $('#roomMessage').click(function (e) {
         e.preventDefault();
         var id = conn.getUniqueId(); // 生成本地消息id
-        var msg = new WebIM.default.message('txt', id); // 创建文本消息
+        var msg = new WebIM.message('txt', id); // 创建文本消息
         var option = {
             msg: '聊天室发送内容测试！', // 消息内容
-            to: '115374024622083', // 接收消息对象(聊天室id)
+            to: '119029788377090', // 接收消息对象(聊天室id)
             roomType: true, // 群聊类型，true时为聊天室，false时为群组
             ext: {}, // 扩展消息
             success: function () {
@@ -161,7 +161,7 @@ $(function () {
     //发送URL图片消息
     $('#urlMessage').click(function (e) {
         e.preventDefault();
-        var url = 'https://huaban.com/pins/1515126511';
+        var url = 'https://image.carzone.cn/carzone_crm/baseinfo/detail/20200528/202005281149562.377013089704299.jpg';
         var id = conn.getUniqueId(); // 生成本地消息id
         var msg = new WebIM.message('img', id); // 创建图片消息
         var option = {

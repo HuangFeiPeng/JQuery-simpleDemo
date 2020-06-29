@@ -57,7 +57,7 @@ $(function () {
     $('#getGroupInfo').click(function (e) {
         e.preventDefault();
         var options = {
-            groupId: '116840041873409', //填写要获取的群组ID
+            groupId: '117200113434628', //填写要获取的群组ID
             success: function (resp) {
                 console.log('>>>获取成功', resp);
             },
@@ -96,7 +96,7 @@ $(function () {
     $('#dissolveGroup').click(function (e) {
         e.preventDefault();
         var option = {
-            groupId: '116846231617538',
+            groupId: '117200113434628',
             success: function () {
                 console.log('>>>>群组已解散!');
             }
@@ -107,8 +107,8 @@ $(function () {
     $('#quitGroup').click(function (e) {
         e.preventDefault();
         var option = {
-            to: 'hfp',
-            groupId: '116846231617538',
+            to: '13031081380',
+            groupId: '117200113434628',
             success: function (res) {
                 console.log('您成功，离开群组！', res);
             },
@@ -301,6 +301,7 @@ $(function () {
             }
         })
     });
+    //同意用户加群入群没有写，这两个功能可以写在监听里面。
     //同意用户入群
     $('#agreeJoinGroup').click(function (e) {
         e.preventDefault();
@@ -367,33 +368,32 @@ $(function () {
         conn.disableSendGroupMsg({
             groupId: "117200113434628", //群组id
             success: function (resp) {
-                console.log('开启全员禁言成功！',resp.data);
+                console.log('开启全员禁言成功！', resp.data);
             },
             error: function (e) {
-                console.log('开启全员禁言失败！',e);
+                console.log('开启全员禁言失败！', e);
             }
         })
     });
     //关闭全员禁言
-    $('#offAllMute').click(function (e) { 
+    $('#offAllMute').click(function (e) {
         e.preventDefault();
         conn.enableSendGroupMsg({
             groupId: "117200113434628", //群组id
             success: function (resp) {
-                console.log('关闭全员禁言成功！',resp.data);
+                console.log('关闭全员禁言成功！', resp.data);
             },
             error: function (e) {
-                console.log('关闭全员禁言失败！',e);
+                console.log('关闭全员禁言失败！', e);
             }
         })
     });
-    allMuteList
     /* 白名单管理 */
     //从服务器拉去白名单
     $('#getWhiteList').click(function (e) {
         e.preventDefault();
         conn.getGroupWhitelist({
-            groupId: "117200304275457", //群组id
+            groupId: "117200113434628", //群组id
             success: function (resp) {
                 console.log('拉取成功', resp.data);
             },
@@ -402,5 +402,116 @@ $(function () {
             }
         })
     });
-    //
+    //添加用户到白名单
+    $('#addWhiteList').click(function (e) {
+        e.preventDefault();
+        conn.addUsersToGroupWhitelist({
+            groupId: "117200113434628", //群组id
+            users: ["hfp3", "1hr"], //成员id列表
+            success: function (resp) {
+                console.log('添加成功~', resp.data);
+            },
+            error: function (e) {
+                console.log('添加失败~', e);
+            }
+        })
+    });
+    //将用户移出白名单
+    $('#removeWhiteList').click(function (e) {
+        e.preventDefault();
+        let options = {
+            groupId: "117200113434628", //群组id
+            userName: ["1hr", "13031081380"], //成员id列表
+            success: function (resp) {
+                console.log('移出成功~', resp.data);
+            },
+            error: function (e) {
+                console.log('移出失败~', e);
+            }
+        }
+        conn.rmUsersFromGroupWhitelist(options);
+    });
+    //查询自己是否为白名单成员,操作权限：app admin可查询所有用户；app user可查询自己
+    $('#findWhiteList').click(function (e) {
+        e.preventDefault();
+        conn.isGroupWhiteUser({
+            groupId: "117200113434628", //群组id
+            userName: "hfp", //要查询的成员
+            success: function (resp) {
+                console.log('查询成功', resp);
+            },
+            error: function (e) {
+                console.log('查询失败', e);
+            }
+        })
+    });
+    /* 黑名单管理 */
+    //获取群组黑名单
+    $('#getGroupBlacklistNew').click(function (e) {
+        e.preventDefault();
+        conn.getGroupBlacklistNew({
+            groupId: '117200113434628',
+            success: function (list) {
+                console.log('Get group black list: ', list.data);
+            },
+            error: function () {
+                console.log('Get group black list error.');
+            }
+        });
+    });
+    //将成员单个拉入群黑名单
+    $('#groupBlockSingle').click(function (e) {
+        e.preventDefault();
+        conn.groupBlockSingle({
+            groupId: '117200113434628', // 群组ID
+            username: 'hfp4', // 将要被加入黑名单的用户名
+            success: function (resp) {
+                console.log("Response: ", resp);
+            },
+            error: function (e) {}
+        })
+    });
+    //将单个成员移出黑名单
+    $('#removeGroupBlockSingle').click(function (e) {
+        e.preventDefault();
+        conn.removeGroupBlockSingle({
+            groupId: "117200113434628", // 群组ID              
+            username: "hfp4", // 需要移除的用户名
+            success: function (resp) {
+                console.log("移出黑名单成功 ", resp);
+            },
+            error: function (e) {
+                console.log('移出失败~');
+            }
+        })
+    });
+    //将成员批量加入黑名单
+    $('#groupBlockMulti').click(function (e) {
+        e.preventDefault();
+        conn.groupBlockMulti({
+            groupId: '117200113434628', // 群组ID
+            usernames: ['1hr', 'omg2'], // 将要被加入黑名单的用户名数组
+            success: function (resp) {
+                console.log("批量加入成功~", resp.data);
+            },
+            error: function (e) {
+                console.log('加入失败~', e);
+            }
+        })
+    });
+    //将成员批量移出黑名单
+    $('#removeGroupBlockMulti').click(function (e) {
+        e.preventDefault();
+        conn.removeGroupBlockMulti({
+            groupId: "117200113434628", // 群组ID
+            usernames: ["1hr", "omg2"], // 需要移除的用户名数组
+            success: function (resp) {
+                console.log("移出成功: ", resp.data);
+            },
+            error: function (e) {
+
+                console.log('移出失敗',e);
+            }
+        })
+    });
 })

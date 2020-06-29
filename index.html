@@ -8,6 +8,7 @@
     <!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script> -->
     <script src="./js/jquery-3.4.1/jquery-3.4.1.min.js"></script>
     <script src="./sdk/websdk3.1.4.js"></script>
+    <!-- <script src="./sdk/webimSDK3.0.6.js"></script> -->
     <script src="./sdk/EMedia_x1v1.js"></script>
     <!-- <script src="./sdk//EMedia_sdk-dev.js"></script> -->
     <script src="./WebIMConfig.js"></script>
@@ -39,14 +40,52 @@
             font-size: 18px;
             color: black;
         }
-        #img{
+
+        img {
             width: 80px;
             height: 80px;
             border: 1px solid red;
         }
-        video{
+
+        video {
             width: 308px;
             height: 158px;
+        }
+        #msgShow {
+            margin-top: 10px;
+            width: 200px;
+            height: 350px;
+            /* border: 5px double pink; */
+            /* overflow: hidden; */
+        }
+        .msgtitle {
+            width: 100%;
+            height: 40px;
+            line-height: 40px;
+            display: inline-block;
+            text-align: center;
+        }
+        #msgContent{
+            width: 100%;
+            height: 310px;
+            overflow: hidden;
+        }
+        .msgUl {
+            height: 100%;
+            overflow: scroll;
+        }
+        .msgUl li{
+            margin: 10px 0
+        }
+        .msg-box {
+            margin-left: 10px;
+            text-align: left;
+            font-size: 7px;
+            color: white;
+            width: 80%;
+            background: rgb(078, 110, 242);
+            border-radius: 5px;
+            padding: 5px 8px;
         }
     </style>
 </head>
@@ -56,10 +95,103 @@
     <p class="txt">登录及注册框↓</p>
     <div class="login-box">
         用户昵称：<input type="text" name="name" id="nickname"> </br>
-        用户ID: <input type="text" id="userId"  value="hfp"></br>
+        用户ID: <input type="text" id="userId" value="hfp"></br>
         密 码：<input type="text" name="pwd" id="userpwd" value="1"></br>
         消息：<input type="text" name="msg" id="msg">
-        文本框：<textarea rows="5" cols="30" placeholder="贴图贴在此处...." id="tietu"></textarea>
+        <div id="msgShow">
+            <div class="msgtitle">消息展示框</div>
+            <div id="msgContent">
+                <ul class="msgUl">
+                    <li>
+                        <div class="msg-box">
+                            <span class="msgName">pfh</span>
+                            <p class="msgData">覅防滑袜of哄娃</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="msg-box">
+                            <span class="msgName">pfh</span>
+                            <p class="msgData">覅防滑袜of哄娃</p>
+                            <p class="msgData">覅防滑袜of哄娃</p>
+                            <p class="msgData">覅防滑袜of哄娃</p>
+                            <p class="msgData">覅防滑袜of哄娃</p>
+                            <p class="msgData">覅防滑袜of哄娃</p>
+                            <p class="msgData">覅防滑袜of哄娃</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="msg-box">
+                            <span class="msgName">pfh</span>
+                            <p class="msgData">覅防滑袜of哄娃</p>
+                            f哄娃</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="msg-box">
+                            <span class="msgName">pfh</span>
+                            <p class="msgData">覅防滑袜of哄娃</p>
+                            f哄娃</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="msg-box">
+                            <span class="msgName">pfh</span>
+                            <p class="msgData">覅防滑袜of哄娃</p>
+                            f哄娃</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="msg-box">
+                            <span class="msgName">pfh</span>
+                            <p class="msgData">覅防滑袜of哄娃</p>
+                            f哄娃</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="msg-box">
+                            <span class="msgName">pfh</span>
+                            <p class="msgData">覅防滑袜of哄娃</p>
+                            f哄娃</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="msg-box">
+                            <span class="msgName">pfh</span>
+                            <p class="msgData">覅防滑袜of哄娃</p>
+                            f哄娃</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="msg-box">
+                            <span class="msgName">pfh</span>
+                            <p class="msgData">覅防滑袜of哄娃</p>
+                            f哄娃</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="msg-box">
+                            <span class="msgName">pfh</span>
+                            <p class="msgData">覅防滑袜of哄娃</p>
+                            f哄娃</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="msg-box">
+                            <span class="msgName">pfh</span>
+                            <p class="msgData">覅防滑袜of哄娃</p>
+                            f哄娃</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="msg-box">
+                            <span class="msgName">pfh</span>
+                            <p class="msgData">覅防滑袜of哄娃</p>
+                            f哄娃</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
 
     <hr />
@@ -113,7 +245,7 @@
         <input type="button" value="将好友加入黑名单" id="joinBlackList">
         <input type="button" value="将好友移除黑名单" id="removeBlackList">
     </div>
-    <hr/>
+    <hr />
     <p class="txt">群组功能部分↓</p>
     <div>
         <input type="button" value="获取用户加入的群组列表" id="getGroupList">
@@ -157,13 +289,34 @@
         <br />
         <!-- 白名单管理 -->
         <input type="button" value="拉取白名单" id="getWhiteList">
+        <input type="button" value="添加白名单" id="addWhiteList">
+        <input type="button" value="移除白名单" id="removeWhiteList">
+        <input type="button" value="查询自己是否为白名单成员" id="findWhiteList">
+        <br />
+        <!-- 黑名单管理 -->
+        <input type="button" value="获取群组黑名单" id="getGroupBlacklistNew">
+        <input type="button" value="将成员拉入群黑名单（单个）" id="groupBlockSingle">
+        <input type="button" value="将成员移出群黑名单（单个）" id="removeGroupBlockSingle">
+        <input type="button" value="将成员加入群黑名单（批量）" id="groupBlockMulti">
+        <input type="button" value="将成员移除群组黑名单（批量)" id="removeGroupBlockMulti">
     </div>
-    <hr/>
+    <hr />
     <p class="txt">聊天室部分功能↓</p>
     <div>
-        <input type="button" value="创建聊天室" id="createRooms">
-        <input type="button" value="获取聊天室成员列表" id="listRoomsMebr">
-        
+        <input type="button" value="获取聊天室列表" id="getChatRooms">
+        <input type="button" value="加入聊天室" id="joinChatRoom">
+        <input type="button" value="退出聊天室" id="quitChatRoom">
+        <input type="button" value="分頁获取聊天室成员" id="listRoomsMebr">
+        <br />
+        <!-- 聊天室公告 -->
+        <input type="button" value="获取聊天室公告" id="getChatroomAct">
+        <input type="button" value="上传修改聊天室公告" id="upChatroomAct">
+        <br />
+        <!-- 聊天室禁言 -->
+        <input type="button" value="获取聊天室所有禁言成员">
+        <input type="button" value="将成员禁言">
+        <input type="button" value="将成员解除禁言">
+
     </div>
     <hr />
     <p class="txt">点对点实时音视频↓</p>
@@ -181,28 +334,31 @@
     <hr />
     <p class="txt">多人音视频↓</p>
     <div>
-        <input type="button" value="创建会议" id="createMeet">
-        <input type="button" value="挂断退出" id="endMeet">
+        <input type="button" value="创建会议并加入会议" id="createMeet">
         <input type="button" value="文本邀请消息" id="textAsk">
         <input type="button" value="离开会议" id="exitMeet">
-        <input type="button" value="取消发布流" id="cancelLiu">
         <input type="button" value="获取会议信息" id="getMeetMsg">
+        <input type="button" value="授权" id="grantRole">
         <input type="button" value="打开桌面共享" id="shareDesk">
+        <input type="button" value="创建会议不加入" id="createConFr">
+        <input type="button" value="加入刚才创建的会议" id="joinConFr">
     </div>
     <input type="button" value="获取音频消息" id="getAudioMsg">
     <!-- <audio  id="aduioMsg"></audio> -->
     <div id="Auidomsg" style="width: 500px; height: 100px; border: 1px solid red;">
         <audio src="./35.mp3"></audio>
     </div>
+    <a href="http://wwww.baidu.com" target="_blank" rel="noopener noreferrer">点击一下</a>
 </body>
 <script>
-    $('#getAudioMsg').click(function (e) { 
+    $('#getAudioMsg').click(function (e) {
         e.preventDefault();
         var audioUrl = window.localStorage.getItem("audioURl")
         var audio = `<audio src="${audioUrl}" controls></audio>`
         $('#Auidomsg').append(audio);
     });
 </script>
+
 </html>
 <script src="./js/loginAndMsg.js"></script>
 <script src="./js//friends.js"></script>

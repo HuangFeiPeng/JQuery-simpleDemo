@@ -18,18 +18,15 @@ function getUrl() {
         xmppUrl: xmppUrl
     }}
     var config = {
-        // xmppURL: '//im-api-v2.easemob.com/ws',    // xmpp Server地址
-        xmppURL: getUrl().xmppUrl,
-        apiURL: getUrl().apiUrl,
-        // apiURL: '//a1.easemob.com',               // rest Server地址
+        xmppURL: '//im-api-v2.easemob.com/ws',    // xmpp Server地址
+        // xmppURL: getUrl().xmppUrl,
+        // apiURL: getUrl().apiUrl,
+        apiURL: '//a1.easemob.com',               // rest Server地址
         appkey: 'easemob-demo#chatdemoui', //环信App key
-  
-        
-     
-        
+        // appkey: '1116200506098408#huangfeipeng',
         https: true,                            // 是否使用https
 
-        isHttpDNS: true,                          // 3.0 SDK支持，防止DNS劫持从服务端获取XMPPUrl、restUrl 
+        isHttpDNS: false,                          // 3.0 SDK支持，防止DNS劫持从服务端获取XMPPUrl、restUrl 
 
         isMultiLoginSessions: false,              // 是否开启多页面同步收消息，注意，需要先联系商务开通此功能
 
@@ -42,6 +39,6 @@ function getUrl() {
         heartBeatWait: 4500,                      // 使用webrtc（视频聊天）时发送心跳包的时间间隔，单位ms
 
         Host: 'easemob.com',
-        delivery: false                        // 是否发送已读回执
+        delivery: true                        // 是否发送已读回执
     }
     
