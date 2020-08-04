@@ -21,11 +21,7 @@ $(function () {
             apiUrl: WebIM.config.apiURL
         };
         conn.registerUser(options);
-        return {
-            username,
-            userpwd,
-            userId
-        };
+
     });
     // 登录
     $('#login').click(function (e) {
@@ -112,7 +108,7 @@ $(function () {
         var msg = new WebIM.message('txt', id); // 创建文本消息
         var option = {
             msg: '聊天室发送内容测试！', // 消息内容
-            to: '119029788377090', // 接收消息对象(聊天室id)
+            to: '122163737722883', // 接收消息对象(聊天室id)
             roomType: true, // 群聊类型，true时为聊天室，false时为群组
             ext: {}, // 扩展消息
             success: function () {
@@ -221,7 +217,7 @@ $(function () {
         var customEvent = "customEvent"; // 创建自定义事件
         var customExts = {}; // 消息内容，key/value 需要 string 类型
         msg.set({
-            to: 'i', // 接收消息对象（用户id）
+            to: 'ziyebingcha', // 接收消息对象（用户id）
             customEvent,
             customExts,
             ext: {
@@ -273,7 +269,7 @@ $(function () {
         var id = conn.getUniqueId(); // 生成本地消息id
         var msg = new WebIM.message('file', id); // 创建文件消息
         var input = document.getElementById('image');
-        var file = WebIM.default.utils.getFileUrl(input);
+        var file = WebIM.utils.getFileUrl(input);
         var allowType = {
             'jpg': true,
             'gif': true,
@@ -293,8 +289,8 @@ $(function () {
                 onFileUploadError: function () { // 消息上传失败
                     console.log('消息上传失败');
                 },
-                onFileUploadComplete: function () { // 消息上传成功
-                    console.log('消息上传成功');
+                onFileUploadComplete: function (data) { // 消息上传成功
+                    console.log('消息上传成功',data);
                 },
                 success: function () { // 消息发送成功
                     console.log('>>>>>>消息发送成功');

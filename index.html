@@ -7,7 +7,10 @@
     <title>登录</title>
     <!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script> -->
     <script src="./js/jquery-3.4.1/jquery-3.4.1.min.js"></script>
-    <script src="./sdk/websdk3.1.4.js"></script>
+    <!-- <script src="./sdk/websdk3.1.4.js"></script> -->
+    <!-- <script src="./sdk/websdk3.2.0.js"></script> -->
+    <script src="./sdk/websdk3.2.1.js"></script>
+
     <!-- <script src="./sdk/webimSDK3.0.6.js"></script> -->
     <script src="./sdk/EMedia_x1v1.js"></script>
     <!-- <script src="./sdk//EMedia_sdk-dev.js"></script> -->
@@ -86,6 +89,16 @@
             background: rgb(078, 110, 242);
             border-radius: 5px;
             padding: 5px 8px;
+        }
+        #confrVideoTitle{
+            width: 100%;
+            height: 50px;
+        }
+        #confrVideoTitle li{
+            float: left;
+            margin: 0 115px;
+            line-height: 50px;
+
         }
     </style>
 </head>
@@ -304,6 +317,7 @@
     <p class="txt">聊天室部分功能↓</p>
     <div>
         <input type="button" value="获取聊天室列表" id="getChatRooms">
+        <input type="button" value="创建聊天室" id="createChatRooms">
         <input type="button" value="加入聊天室" id="joinChatRoom">
         <input type="button" value="退出聊天室" id="quitChatRoom">
         <input type="button" value="分頁获取聊天室成员" id="listRoomsMebr">
@@ -314,7 +328,7 @@
         <br />
         <!-- 聊天室禁言 -->
         <input type="button" value="获取聊天室所有禁言成员">
-        <input type="button" value="将成员禁言">
+        <input type="button" value="将个别成员禁言" id="muteSingleMem">
         <input type="button" value="将成员解除禁言">
 
     </div>
@@ -326,9 +340,16 @@
         <input type="button" value="挂断" id="endCall">
 
         <div>
-            <video id="video" style="border: 4px double rgb(078, 110, 242)" autoplay></video>
-            <video id="localVideo" muted=true autoplay style="border: 4px double rgb(206, 102, 60)"></video>
-            <video id="video2" muted=true autoplay style="border: 4px double rgb(240, 176, 151)"></video>
+            <ul id="confrVideoTitle">
+                <li>本地视频流</li>
+                <li>他人视频流</li>
+                <li>共享视频流</li>
+            </ul>
+            <video id="localVideo" style="border: 4px double rgb(078, 110, 242)" autoplay></video>
+
+            <video id="video" muted=true autoplay style="border: 4px double rgb(253, 76, 6)"></video>
+
+            <video id="video2" muted=true autoplay style="border: 4px double rgb(122, 35, 1)"></video>
         </div>
     </div>
     <hr />
@@ -348,7 +369,11 @@
     <div id="Auidomsg" style="width: 500px; height: 100px; border: 1px solid red;">
         <audio src="./35.mp3"></audio>
     </div>
-    <a href="http://wwww.baidu.com" target="_blank" rel="noopener noreferrer">点击一下</a>
+    <p class="txt">其他功能接口</p>
+    <div>
+        <!--  -->
+        <input type="button" value="点击下载文件" id="dowlocadFiles">
+    </div>
 </body>
 <script>
     $('#getAudioMsg').click(function (e) {
@@ -366,3 +391,4 @@
 <script src="./js/chatrooms.js"></script>
 <script src="./js/singleV&A.js"></script>
 <script src="./js/mangV&A.js"></script>
+<script src="./js/else.js"></script>

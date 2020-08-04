@@ -12,7 +12,7 @@ $(function () {
             emedia.mgr.joinConference(resultCon.confrId, resultCon.password, "加入").then(
                 function (confr) {
                     console.log("加入成功");
-                    var videoCreate = document.getElementById("video");
+                    var videoCreate = document.getElementById("localVideo");
                     var constaints = {
                         audio: true,
                         video: true
@@ -61,7 +61,6 @@ $(function () {
     //授权
     $('#grantRole').click(function (e) { 
         e.preventDefault();
-        debugger;
         emedia.mgr.grantRole(resultCon, '13031081380', 7).then(function(res){
             console.log('授权成功',res);
         }).catch(function(error){

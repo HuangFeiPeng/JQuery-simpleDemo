@@ -1,5 +1,24 @@
 /* 聊天室功能部分 */
 $(function () {
+    //创建聊天室功能
+    $('#createChatRooms').click(function (e) {
+        e.preventDefault();
+        var options = {
+            name: 'chatRoomName', // 聊天室名称
+            description: 'awdaw', // 聊天室描述
+            maxusers: 200, // 聊天室成员最大数（包括聊天室创建者），默认值200，最大值5000
+            // members: ['13031081380'], // 聊天室成员，此属性为可选的，但是如果加了此项，数组元素至少一个
+            success: function (res) {
+                console.log('创建聊天室成功~', res);
+            },
+            error: function (err) {
+                console.log('聊天室创建失败~', err);
+            }
+        }
+
+        conn.createChatRoom(options)
+    });
+
     //获取聊天室列表
     $('#getChatRooms').click(function (e) {
         e.preventDefault();
@@ -20,11 +39,11 @@ $(function () {
     $('#joinChatRoom').click(function (e) {
         e.preventDefault();
         conn.joinChatRoom({
-            roomId: '119029788377090', // 聊天室id，
-            success: function(){
+            roomId: '122163737722883', // 聊天室id，
+            success: function () {
                 console.log('加入聊天室成功！');
             },
-            error: function(){
+            error: function () {
                 console.log('加入聊天室失败~');
             }
         });
@@ -70,11 +89,27 @@ $(function () {
             roomId: '118286717091841', // 聊天室id   
             announcement: 'announcement', // 公告内容                        
             success: function (resp) {
-                console.log('聊天室公告更新',resp);
+                console.log('聊天室公告更新', resp);
             },
             error: function (e) {
-                console.log('聊天室公告更新失败',e);
+                console.log('聊天室公告更新失败', e);
             }
         });
+    });
+    //禁言个别成员
+    $('#muteSingleMem').click(function (e) {
+        e.preventDefault();
+        var options = {
+            chatRoomId: "122163737722883", // 聊天室id
+            username: '13031081380', // 被禁言的聊天室成员的id
+            muteDuration: -1000, // 被禁言的时长，单位ms，如果是“-1000”代表永久
+            success: function (resp) {
+                console.log('禁言成功', resp);
+            },
+            error: function (e) {
+                console.log('禁言失败', e);
+            }
+        };
+        conn.muteChatRoomMember(options);
     });
 })

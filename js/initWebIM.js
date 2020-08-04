@@ -23,7 +23,7 @@ function DisPlayMsg(from, data, conType) {
         let msg = `<li>
                     <div class="msg-box">
                         <span class="msgName">发送人:${from}</span>
-                        <p class="msgData">消息内容${data}</p>
+                        <p class="msgData">${data}</p>
                     </div>
                 </li>`
         $(".msgUl").append(msg);
@@ -36,13 +36,7 @@ function DisPlayMsg(from, data, conType) {
                 </li>`
         $(".msgUl").append(msg);
     }
-    // let msg = `<li>
-    //                 <div class="msg-box">
-    //                     <span class="msgName">发送人:${from}</span>
-    //                     <p class="msgData">消息内容${data}</p>
-    //                 </div>
-    //             </li>`
-    // $(".msgUl").append(msg);
+    $('.msgUl').scrollTop(1000);
 }
 // WebIM.config 为之前集成里介绍的WebIMConfig.js
 conn.listen({
@@ -66,8 +60,6 @@ conn.listen({
                 var password = message.ext.password;
                 emedia.mgr.joinConference(confrId, password, "加入").then(
                     function (confr) {
-                        var time = Math.round(new Date() / 1000);
-                        console.log(">>>>>>>>加入成功时间为" + time);
                         var videoCreate = document.getElementById("video");
                         var constaints = {
                             audio: true,
@@ -141,7 +133,6 @@ conn.listen({
     onAudioMessage: function (message) {
         console.log('>>>收到音频消息', message)
         if (message.url) {
-            // // console.log(1);
             // var audioURl = message.url;
             // window.localStorage.setItem("audioURl",audioURl);
             // console.log(audioURl);
@@ -174,6 +165,9 @@ conn.listen({
     onFileMessage: function (message) {
         console.log('>>>收到文件消息', message)
     }, //收到文件消息
+    onCustomMessage: function ( message ) {
+        console.log('收到自定义消息',message);
+    },  //收到自定义消息
     onVideoMessage: function (message) {
         var node = document.getElementById('privateVideo');
         var option = {
@@ -311,7 +305,7 @@ conn.listen({
     }, //处理好友申请
     onInviteMessage: function (message) {}, //处理群组邀请
     onOnline: function () {}, //本机网络连接成功
-    onOffline: function () {}, //本机网络掉线
+    onOffline: function () {}, //本机网络掉
     onError: function (message) {
         console.log('>>>出现错误', message);
     }, //失败回调
@@ -371,7 +365,6 @@ var rtcCall = new WebIM.WebRTC.Call({
         }, //获取到本地流执行的回调
         onRinging: function (caller, streamType) {
             console.log("onRinging", caller)
-            console.log(object);
             var returned = confirm('接到来自' + caller + '音视频,是否接听？')
             if (returned) {
                 rtcCall.acceptCall();
@@ -409,24 +402,18 @@ emedia.mgr.onMemeberJoined = function (member) {
 emedia.mgr.onMemberExited = function (member) {
     console.log(member.name, '退出会议！')
 }
+
 //其他成员收到通知并订阅流
 //有媒体流添加；比如 自己调用了publish方法（stream.located() === true时），或其他人调用了publish方法。
 emedia.mgr.onStreamAdded = function (member, stream) {
-    // debugger;
-    console.log('>>>>有媒体流添加', member, stream);
-    if (!stream.located()) { //自己发送的数据流 
-        var subscribe = confirm('是否订阅？')
-        if (subscribe) {
-            emedia.mgr.streamBindVideo(stream, localVideo)
-            emedia.mgr.subscribe(member, stream, true, true, localVideo) //成员A成功发布数据流后，会议中其他成员会收到监听类回调[emedia.mgr.onStreamAdded]，如果成员B想看成员A的音视频，可以调用subscribe接口进行订阅
-        } else {
-            emedia.mgr.unsubscribe(stream);
-        }
-
+    console.log('>>>>有媒体流添加', stream);
+    if (!stream.located()) { //如果不是自己发送的数据流 
+            emedia.mgr.subscribe(member, stream, true, true, video) //成员A成功发布数据流后，会议中其他成员会收到监听类回调[emedia.mgr.onStreamAdded]，如果成员B想看成员A的音视频，可以调用subscribe接口进行订阅
     } else {
-        emedia.mgr.streamBindVideo(video, pushedStream);
+        emedia.mgr.streamBindVideo(stream,localVideo);
     }
 }
+
 //有媒体流移除
 emedia.mgr.onStreamRemoved = function (member, stream) {
     console.log(">>>>>>媒体流移除", stream);
