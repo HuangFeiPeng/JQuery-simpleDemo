@@ -23,6 +23,7 @@ function getUrl() {
         // apiURL: getUrl().apiUrl,
         apiURL: '//a1.easemob.com',               // rest Server地址
         appkey: 'easemob-demo#chatdemoui', //环信App key
+        // appkey: '1119190917098768#test', //App key
         https: true,                            // 是否使用https
 
         isHttpDNS: false,                          // 3.0 SDK支持，防止DNS劫持从服务端获取XMPPUrl、restUrl 

@@ -39,7 +39,7 @@ $(function () {
     $('#joinChatRoom').click(function (e) {
         e.preventDefault();
         conn.joinChatRoom({
-            roomId: '122163737722883', // 聊天室id，
+            roomId: '122917070372866', // 聊天室id，
             success: function () {
                 console.log('加入聊天室成功！');
             },

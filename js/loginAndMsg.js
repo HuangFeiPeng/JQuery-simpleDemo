@@ -215,15 +215,18 @@ $(function () {
         var id = conn.getUniqueId(); // 生成本地消息id
         var msg = new WebIM.message('custom', id); // 创建自定义消息
         var customEvent = "customEvent"; // 创建自定义事件
-        var customExts = {}; // 消息内容，key/value 需要 string 类型
+        var customExts = {
+            confrid: '1111111',
+            password: '11111'
+        }; // 消息内容，key/value 需要 string 类型
         msg.set({
-            to: 'ziyebingcha', // 接收消息对象（用户id）
+            to: '122917070372866', // 接收消息对象（用户id）
             customEvent,
             customExts,
             ext: {
                 ang: '随意'
             }, // 消息扩展
-            roomType: false,
+            roomType: true,
             success: function (id, serverMsgId) {
                 console.log('自定义消息发送成功！', id, serverMsgId);
             },
@@ -231,8 +234,28 @@ $(function () {
                 console.log('>>>>自定义发送失败', e);
             }
         });
+        msg.setGroup('groupchat');
         conn.send(msg.body);
 
+
+    });
+    //发送位置消息
+    $('#localMsg').click(function (e) { 
+        e.preventDefault();
+        var toId = $('#nickname').val()
+        var id = WebIM.conn.getUniqueId();                 // 生成本地消息id
+        var msg = new WebIM.message('location', id);      // 创建位置消息
+        msg.set({
+            to: toId,                          // 接收消息对象（用户id）
+            roomType: false,
+            addr: "北京四通桥",
+            lat: "39.9666",
+            lng: "116.322",
+            success: function (id, serverMsgId) {
+                console.log('发送位置消息成功', id, serverMsgId)
+            }
+        })
+        WebIM.conn.send(msg.body);
     });
     //撤回消息
     $('#widthDrawMessage').click(function (e) {
